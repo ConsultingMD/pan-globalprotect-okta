@@ -59,4 +59,6 @@ prompt
 
 DIR=$(cd $(dirname $0) && pwd)
 export GP_PASSWORD GP_TOTP_GOOGLE GP_GATEWAY
+#echo "connect DEBUG:"
+#env | grep GP | sed 's/^/    /'
 exec python3 $DIR/gp-okta.py $DIR/gp-okta.conf
