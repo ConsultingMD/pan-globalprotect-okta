@@ -582,12 +582,10 @@ def okta_mfa_totp(conf, factor, state_token):
 	# type: (Conf, Dict[str, str], str) -> Optional[Dict[str, Any]]
 	provider = factor.get('provider', '')
 	secret = conf.get_value('totp.{0}'.format(provider))
-	print("ReC: provider: {}, secret: {}".format(provider, secret))
 	code = None
 	if not secret:
 		code = input('{0} TOTP: '.format(provider)).strip()
 	else:
-		print(f"ReC: code = secret")
 		code = secret
 		#if not have_pyotp:
 			#err('Need pyotp package, consider doing \'pip install pyotp\' (or similar)')
