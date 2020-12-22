@@ -296,6 +296,9 @@ class Conf(object):
 				k = k[3:]
 				if not k:
 					continue
+				# Because shell env vars cannot have . in their name,
+				# use '_' in the env var and swap in the required '.'
+				k = k.replace("_", ".")
 				conf._store[k] = v.strip()
 		if not conf._store.get('username', '').strip():
 			conf._store['username'] = input('username: ').strip()
@@ -572,6 +575,9 @@ def okta_mfa(conf, j):
 		err('no factors processed')
 	return r
 
+# OK, working from no knowledge, really: it appears that `secret` is supposed to be something about how to talk to the
+# OTP provider, and `code` is supposed to be what it provides. In our wrapper, we're just providing the code directly,
+# so we bypass the whole thing. OTOH, this is *also* what required the . -> _ transform, just to store the code.
 def okta_mfa_totp(conf, factor, state_token):
 	# type: (Conf, Dict[str, str], str) -> Optional[Dict[str, Any]]
 	provider = factor.get('provider', '')
@@ -580,10 +586,11 @@ def okta_mfa_totp(conf, factor, state_token):
 	if not secret:
 		code = input('{0} TOTP: '.format(provider)).strip()
 	else:
-		if not have_pyotp:
-			err('Need pyotp package, consider doing \'pip install pyotp\' (or similar)')
-		totp = pyotp.TOTP(secret)
-		code = totp.now()
+		code = secret
+		#if not have_pyotp:
+			#err('Need pyotp package, consider doing \'pip install pyotp\' (or similar)')
+		#totp = pyotp.TOTP(secret)
+		#code = totp.now()
 	code = code or ''
 	if not code:
 		return None
