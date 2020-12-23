@@ -4,8 +4,8 @@ You should be able to start the vpn by running `bin/vpn`.  You can add
 "$GR_HOME/pan-globalprotect-okta/bin" to your path to start the vpn from
 anywhere.
 
-There are two everironment variables you may want to configure:
-``` 
+There are two environment variables you may want to configure:
+```
 # one of US West or US East, defaults to US West
 export GP_GATEWAY="US East"
 # space seperated list of mfa devices to try, defaults to totp (okta verify/google authenticator)
@@ -36,7 +36,7 @@ for creating actual VPN connection. Compatible with Python 2 and 3. Tested on
 FreeBSD, Linux and MacOS X. Tested with OpenConnect 8.00 - 8.10.
 
 It also supports multiple second factor authentication implementations like Google, OKTA, YubiKey, SMS, etc.
-TOPT authentication can work without user interaction, if initial secret is provided. 
+TOPT authentication can work without user interaction, if initial secret is provided.
 Otherwise, it will ask for generated code.
 
 To gather TOTP secret, there are two possibilities - either scan the provided QR
