@@ -12,6 +12,12 @@ export GP_GATEWAY="US East"
 export GP_MFA_ORDER="webauthn" # use yubikey as mfa (must configure in okta)
 ```
 
+Other environment variables (e.g., `GP_USERNAME`) may be useful if your
+configuration doesn't quite match the current engineering "bootstrap"
+configuration. `GP_USERNAME` defaults to your `GR_USERNAME` value, but that
+might not match your Okta configuration name (which is at least as likely to
+match your `AWS_USERNAME` instead)
+
 Additionally, you may want to configure passwordless sudo for your user when
 executing the openconnect command.
 
