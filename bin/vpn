@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
-
 set -euo pipefail
 
-export GP_USERNAME=${GR_USERNAME:?"Must add GR_USERNAME to .localrc"}
+export GP_USERNAME=${GP_USERNAME:-${GR_USERNAME:?"Must add GR_USERNAME to .localrc, or set & export GP_USERNAME"}}
 export GP_GATEWAY=${GP_GATEWAY:-"US West"}
 
 GP_PASSWORD_STORE_PATH="$HOME/.globalprotect-password.gpg"
