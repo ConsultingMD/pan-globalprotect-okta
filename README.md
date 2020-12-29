@@ -1,3 +1,38 @@
+# Usage at GR
+
+You should be able to start the vpn by running `bin/vpn`.  You can add
+"$GR_HOME/pan-globalprotect-okta/bin" to your path to start the vpn from
+anywhere.
+
+There are two environment variables you may want to configure:
+```
+# one of US West or US East, defaults to US West
+export GP_GATEWAY="US East"
+# space seperated list of mfa devices to try, defaults to totp (okta verify/google authenticator)
+export GP_MFA_ORDER="webauthn" # use yubikey as mfa (must configure in okta)
+```
+
+Other environment variables (e.g., `GP_USERNAME`) may be useful if your
+configuration doesn't quite match the current engineering "bootstrap"
+configuration. `GP_USERNAME` defaults to your `GR_USERNAME` value, but that
+might not match your Okta configuration name (which is at least as likely to
+match your `AWS_USERNAME` instead)
+
+Additionally, you may want to configure passwordless sudo for your user when
+executing the openconnect command.
+
+```
+which openconnect
+# verify user:group is root and file mode is 755
+ls -al $(which openconnect)
+
+# edit sudoers
+sudo visudo
+# find line that looks like %sudo   ALL=(ALL:ALL) ALL
+# after that line add
+username  ALL=(ALL) NOPASSWD: /path/to/openconnect
+```
+
 # pan-globalprotect-okta
 
 Command-line client for PaloAlto Networks' GlobalProtect VPN, integrated with OKTA.
@@ -7,7 +42,7 @@ for creating actual VPN connection. Compatible with Python 2 and 3. Tested on
 FreeBSD, Linux and MacOS X. Tested with OpenConnect 8.00 - 8.10.
 
 It also supports multiple second factor authentication implementations like Google, OKTA, YubiKey, SMS, etc.
-TOPT authentication can work without user interaction, if initial secret is provided. 
+TOPT authentication can work without user interaction, if initial secret is provided.
 Otherwise, it will ask for generated code.
 
 To gather TOTP secret, there are two possibilities - either scan the provided QR
